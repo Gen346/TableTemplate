@@ -16,16 +16,16 @@ public:
 	~Table();
 
 	Table<T>& operator=(const Table& rhs);
-	T& operator()(int m, int n);
+	const T& operator()(int m, int n) const;
 
-	int getNumRows() const;
-	int getNumCols() const;
+	int getNumRows() const {return mNumRows;}
+	int getNumCols() const {return mNumCols;}
 
 	void resize(int m, int n);
 	void resize(int m, int n, const T& value);
 
-	int linearSearch(T dataArray[], int arraySize, T searchItems);
-	void print(T data[], int arraySize);
+	int linearSearch(const T& searchItem) const;
+	void print() const;
 
 private:
 	// Make private because this method should only be used 
@@ -68,18 +68,6 @@ Table<T>::~Table()
 }
 
 template <typename T>
-int Table<T>::getNumRows() const
-{
-	return mNumRows;
-}
-
-template <typename T>
-int Table<T>::getNumCols() const
-{
-	return mNumCols;
-}
-
-template <typename T>
 Table<T>& Table<T>::operator=(const Table<T>& rhs)
 {
 	// Check for self assigment
@@ -104,7 +92,7 @@ Table<T>& Table<T>::operator=(const Table<T>& rhs)
 }
 
 template <typename T>
-T& Table<T>::operator()(int i, int j)
+const T& Table<T>::operator()(int i, int j) const
 {
 	return mDataMatrix[i][j];
 }
@@ -143,15 +131,15 @@ void Table<T>::resize(int m, int n, const T& value)
 }
 
 template <typename T>
-int linearSearch(T dataArray[], int numRows, int numCols, T searchItem)
+int Table<T>::linearSearch(const T& searchItem) const
 {
-	for (int i = 0; i < numRows; ++i)
+	for (int i = 0; i < mNumRows; ++i)
 	{
-		for (int j = 0; j < numCols; ++j)
+		for (int j = 0; j < mNumCols; ++j)
 		{
 			if (dataArray[j] == searchItem)
 			{
-				return i * numRows + numCols;
+				return i * mNumCols + j;
 			}
 		}
 	}
@@ -159,14 +147,15 @@ int linearSearch(T dataArray[], int numRows, int numCols, T searchItem)
 }
 
 template <typename T>
-void print(T data[], int numRows, int numCols)
+void Table<T>::print() const
 {
-	for (int i = 0; i < numRows; ++i)
+	for (int i = 0; i < mNumRows; ++i)
 	{
-		for (int j = 0; j < numCols; ++j)
+		for (int j = 0; j < mNumCols; ++j)
 		{
-			std::cout << data[i][j] << std::endl;
+			std::cout << mDataMatrix[i][j] << " ";
 		}
+		std::cout << std::endl;
 	}
 }
 
