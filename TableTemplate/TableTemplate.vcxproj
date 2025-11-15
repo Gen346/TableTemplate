@@ -123,7 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Table.cpp" />
     <ClCompile Include="TableTemplate.cpp" />
   </ItemGroup>
   <ItemGroup>

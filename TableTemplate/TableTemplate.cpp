@@ -2,10 +2,17 @@
 //
 
 #include <iostream>
+#include "Table.h"
 
 int main()
 {
     std::cout << "Hello World!\n";
+
+    Table<int> tableInt{ 10,10 };
+
+    tableInt(0,0) = 5;
+
+    tableInt.print(tableInt, 10);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
