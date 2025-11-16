@@ -14,11 +14,12 @@ public:
 	Table();
 	Table(int m, int n); // m - row ,n - column
 	Table(int m, int n, const T& value);
-	Table(const Table<T>& rhs); // Copy constructor
+	//Copy constructor will be taken from std::vector
 	~Table();
 
-	Table<T>& operator=(const Table& rhs);
-	const T& operator()(int m, int n) const;
+	Table<T>& operator=(Table<T> rhs);
+	T& operator()(int m, int n);
+	const T& operator()(int m, int n) const; // read only
 
 	int getNumRows() const { return mNumRows; }
 	int getNumCols() const { return mNumCols; }
@@ -80,32 +81,44 @@ Table<T>::~Table()
 }
 
 template <typename T>
-Table<T>& Table<T>::operator=(const Table<T>& rhs)
+Table<T>& Table<T>::operator=(Table<T> rhs)
 {
-	swap(*this, rhs&);
+	std::swap(*this, rhs);
 
 	return *this;
 }
+
+template <typename T>
+T& Table<T>::operator()(int i, int j)
+{
+	return mData[index_2d_to_1d(i,j)];
+}
+
 
 template <typename T>
 const T& Table<T>::operator()(int i, int j) const
 {
 	return mData[index_2d_to_1d(i, j)];
 }
-//TODO
+
 template <typename T>
 void Table<T>::resize(int m, int n)
 {
-	mData(m*n);
+	mNumRows = m;
+	mNumCols = n;
+
+	mData.resize(m * n);
 }
-//TODO
+
 template<typename T>
 void Table<T>::resize(int m, int n, const T& value)
 {
+	mNumRows = m;
+	mNumCols = n;
 
-	mData(m*n, value);
+	mData.resize(m * n, value);
 }
-//TODO
+
 template <typename T>
 int Table<T>::linearSearch(const T& searchItem) const
 {
@@ -113,15 +126,17 @@ int Table<T>::linearSearch(const T& searchItem) const
 	{
 		for (int j = 0; j < mNumCols; ++j)
 		{
-			if (mData[j] == searchItem)
+			int index_1d = index_2d_to_1d(i, j);
+
+			if (mData[index_1d] == searchItem)
 			{
-				return i * mNumCols + j;
+				return index_1d;
 			}
 		}
 	}
 	return -1;
 }
-//TODO
+
 template <typename T>
 void Table<T>::print() const
 {
@@ -129,34 +144,10 @@ void Table<T>::print() const
 	{
 		for (int j = 0; j < mNumCols; ++j)
 		{
-			std::cout << mData[i][j] << " ";
+			std::cout << mData [index_2d_to_1d(i, j)] << " ";
 		}
-		std::cout << std::endl;
+		std::cout << "\n";
 	}
 }
-
-//template<typename T>
-//void Table<T>::destroy()
-//{
-//	//Data matrix exist?
-//	if (mDataMatrix)
-//	{
-//		//Itarate over each row i
-//		for (int i = 0; i < mNumRows; ++i)
-//		{
-//			// Does the ith column array exist?
-//			if (mDataMatrix[i])
-//			{
-//				//Yes, delete it
-//				delete[]mDataMatrix[i];
-//				mDataMatrix[i] = 0;
-//			}
-//		}
-//		delete[] mDataMatrix;
-//		mDataMatrix = 0;
-//	}
-//	mNumRows = 0;
-//	mNumCols = 0;
-//}
 
 #endif //TABLE_H
