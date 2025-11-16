@@ -78,7 +78,7 @@ template <typename T>
 Table<T>::~Table()
 {
 }
-//TODO
+
 template <typename T>
 Table<T>& Table<T>::operator=(const Table<T>& rhs)
 {
@@ -96,35 +96,14 @@ const T& Table<T>::operator()(int i, int j) const
 template <typename T>
 void Table<T>::resize(int m, int n)
 {
-	resize(m, n, T());
+	mData(m*n);
 }
 //TODO
 template<typename T>
 void Table<T>::resize(int m, int n, const T& value)
 {
 
-	////destroy the previous data;
-	//destroy();
-
-	//// Save dimension
-	//mNumRows = m;
-	//mNumCols = n;
-
-	//// Allocate a row of pointers
-	//mDataMatrix = new T * [mNumRows];
-
-	//// Now, loop through each pointer in this wor array
-	//for (int i = 0; i < mNumRows; ++i)
-	//{
-	//	// And allocate a column(array) for the ith row to build the table
-	//	mDataMatrix[i] = new T[mNumCols];
-
-	//	// Now loop through each element in this row[i] and copy 'value' to it;
-	//	for (int j = 0; j < mNumCols; ++j)
-	//	{
-	//		mDataMatrix[i][j] = value;
-	//	}
-	//}
+	mData(m*n, value);
 }
 //TODO
 template <typename T>
@@ -134,7 +113,7 @@ int Table<T>::linearSearch(const T& searchItem) const
 	{
 		for (int j = 0; j < mNumCols; ++j)
 		{
-			if (dataArray[j] == searchItem)
+			if (mData[j] == searchItem)
 			{
 				return i * mNumCols + j;
 			}
@@ -150,7 +129,7 @@ void Table<T>::print() const
 	{
 		for (int j = 0; j < mNumCols; ++j)
 		{
-			std::cout << mDataMatrix[i][j] << " ";
+			std::cout << mData[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}
