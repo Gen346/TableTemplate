@@ -4,8 +4,10 @@
 int main()
 {
 	Table<int> table{ 10,10, 8 };
+	Table<int> tableTwo(table);
 	Table<int> tableFloat(table);
-
+	tableTwo.print();
+	std::cout << "\n";
 	table.print();
 	std::cout << "\n";
 	tableFloat.print();

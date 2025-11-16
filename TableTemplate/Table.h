@@ -6,7 +6,6 @@
 #include <vector>
 #include <utility>
 
-// Move implementation from .cpp into .h!!!
 template <typename T>
 class Table
 {
@@ -18,7 +17,7 @@ public:
 	~Table();
 
 	Table<T>& operator=(Table<T> rhs);
-	T& operator()(int m, int n);
+	T& operator()(int m, int n); // read/write opeartions
 	const T& operator()(int m, int n) const; // read only
 
 	int getNumRows() const { return mNumRows; }
